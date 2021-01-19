@@ -93,6 +93,10 @@ func buildSSHServerConfig(buckets *S3Buckets, cfg *S3SFTPProxyConfig) (*ssh.Serv
 		BannerCallback: func(c ssh.ConnMetadata) string {
 			return cfg.Banner
 		},
+		Config: ssh.Config{
+			Ciphers: []string{"aes128-ctr", "aes192-ctr", "aes256-ctr"},
+			MACs:    []string{"hmac-sha2-256", "hmac-sha2-512"},
+		},
 	}
 	sgn, err := ssh.NewSignerFromKey(key)
 	if err != nil {
